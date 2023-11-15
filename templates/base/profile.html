@@ -1,0 +1,39 @@
+{% extends 'skeleton.html' %}
+
+<!--  -->
+
+{% block body %}
+<!--  -->
+{% if profile %}
+<!--  -->
+<fieldset>
+  <legend>
+    <h3>{{ profile.user.username }}'s</h3>
+  </legend>
+  <img
+    src="https://ui-avatars.com/api/?name={{ profile.user.username }}"
+    alt="profile picture"
+  />
+
+  <ul>
+    <strong>Following: </strong>
+    {% for following in profile.follows.all %}
+    <li>
+      <a href="{% url 'profile' following.user.id %}"> @{{ following }} </a>
+    </li>
+    {% endfor %}
+  </ul>
+
+  <ul>
+    <strong>Followers: </strong>
+    {% for followers in profile.followed_by.all %}
+    <li>
+      <a href="{% url 'profile' followers.user.id %}"> @{{ followers }} </a>
+    </li>
+    {% endfor %}
+  </ul>
+</fieldset>
+<!--  -->
+{% endif %}
+<!--  -->
+{% endblock %}
