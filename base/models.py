@@ -12,6 +12,16 @@ class Profile(models.Model):
         return self.user.username
 
 
+class Tweet(models.Model):
+    user = models.ForeignKey(User, related_name='tweets',
+                             on_delete=models.DO_NOTHING)
+    text = models.CharField(max_length=200)
+    created_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self) -> str:
+        return self.text[:64]
+
+
 def create_profile(sender, instance, created, **kwargs):
     if created:
         profile = Profile(user=instance)

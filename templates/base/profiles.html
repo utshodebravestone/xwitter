@@ -3,23 +3,23 @@
 <!--  -->
 
 {% block body %}
-<!--  -->
-{% if profiles %}
+
 <!--  -->
 {% for profile in profiles %}
 <fieldset>
   <figure>
     <img
-      src="https://ui-avatars.com/api/?name={{ profile.user.username }}"
+      src="https://ui-avatars.com/api/?name={{ profile.user.username | lower }}"
       alt="profile picture"
     />
   </figure>
   <h3>
-    <a href="">@{{ profile.user.username }}</a>
+    <a href="{% url 'profile' profile.user.id %}"
+      >@{{ profile.user.username | lower }}</a
+    >
   </h3>
 </fieldset>
 {% endfor %}
-<!--  -->
-{% endif %}
+
 <!--  -->
 {% endblock %}

@@ -3,32 +3,50 @@
 <!--  -->
 
 {% block body %}
+
 <!--  -->
+
 {% if profile %}
 <!--  -->
 <fieldset>
   <legend>
-    <h2>@{{ profile.user.username }}'s</h2>
+    <h2>@{{ profile.user.username | lower }}'s</h2>
   </legend>
   <img
-    src="https://ui-avatars.com/api/?name={{ profile.user.username }}"
+    src="https://ui-avatars.com/api/?name={{ profile.user.username | lower }}"
     alt="profile picture"
   />
 
-  <ul>
-    <strong>Following: </strong>
-    {% for following in profile.follows.all %}
+  <ul style="list-style: none">
+    <h3>tweets:</h3>
+    {% for tweet in tweets %}
     <li>
-      <a href="{% url 'profile' following.user.id %}"> @{{ following }} </a>
+      <fieldset>
+        <p>{{ tweet.text }}</p>
+        <small> {{ tweet.created_at }} </small>
+      </fieldset>
     </li>
     {% endfor %}
   </ul>
 
   <ul>
-    <strong>Followers: </strong>
+    <h3>following:</h3>
+    {% for following in profile.follows.all %}
+    <li>
+      <a href="{% url 'profile' following.user.id %}">
+        @{{ following | lower }}
+      </a>
+    </li>
+    {% endfor %}
+  </ul>
+
+  <ul>
+    <h3>followers:</h3>
     {% for followers in profile.followed_by.all %}
     <li>
-      <a href="{% url 'profile' followers.user.id %}"> @{{ followers }} </a>
+      <a href="{% url 'profile' followers.user.id %}">
+        @{{ followers | lower }}
+      </a>
     </li>
     {% endfor %}
   </ul>
@@ -38,11 +56,11 @@
     <!--    -->
     {% if profile in user.profile.follows.all %}
     <button type="submit" name="action" value="unfollow">
-      Unfollow @{{ profile.user.username }}
+      Unfollow @{{ profile.user.username | lower }}
     </button>
     {% else %}
     <button type="submit" name="action" value="follow">
-      Follow @{{ profile.user.username }}
+      Follow @{{ profile.user.username | lower }}
     </button>
     {% endif %}
   </form>

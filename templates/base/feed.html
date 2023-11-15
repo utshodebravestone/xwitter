@@ -1,0 +1,20 @@
+{% extends 'skeleton.html' %}
+
+<!--  -->
+
+{% block body %}
+
+<!--  -->
+
+<ul style="list-style: none">
+  {% for tweet in tweets %}
+  <li>
+    <fieldset>
+      <p>{{ tweet.text }}</p>
+      <small> {{ tweet.created_at }} </small>
+    </fieldset>
+  </li>
+  {% endfor %}
+</ul>
+
+{% endblock %}
