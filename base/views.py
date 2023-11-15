@@ -1,17 +1,30 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
 
 from .models import Profile, Tweet
+from .forms import TweetForm
 
 
 def feed_view(request):
     if request.user.is_authenticated:
+        form = TweetForm(request.POST or None)
+
+        if request.method == 'POST':
+            if form.is_valid():
+                tweet = form.save(commit=False)
+                tweet.user = request.user
+                tweet.save()
+                messages.success(
+                    request, "xweeted successfully")
+                return redirect('feed')
+
         tweets = Tweet.objects.all().order_by('-created_at')
-        return render(request, 'base/feed.html', {'tweets': tweets})
+        return render(request, 'base/feed.html', {'tweets': tweets, 'form': form})
     else:
         messages.error(
             request, "you can't access feed page unless you are logged in")
-        return redirect('/admin/login')
+        return redirect('login')
 
 
 def profiles_view(request):
@@ -21,7 +34,7 @@ def profiles_view(request):
     else:
         messages.error(
             request, "you can't access profile page unless you are logged in")
-        return redirect('/admin/login')
+        return redirect('login')
 
 
 def profile_view(request, pk):
@@ -41,17 +54,32 @@ def profile_view(request, pk):
     else:
         messages.error(
             request, "you can't access profile page unless you are logged in")
-        return redirect('/admin/login')
+        return redirect('login')
 
 
-def tweet_view(request):
+def login_view(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(request, username=username, password=password)
+        if user:
+            login(request, user)
+            messages.success(
+                request, "logged in successfully")
+            return redirect('feed')
+        else:
+            messages.error(
+                request, "credentials are incorrect")
+    return render(request, 'base/login.html')
+
+
+def logout_view(request):
     if request.user.is_authenticated:
         if request.method == 'POST':
-            text = request.POST.get('tweet')
-            tweet = Tweet(text=text, user=request.user)
-            tweet.save()
-        return redirect(request.META.get('HTTP_REFERER', '/'))
+            logout(request)
+            return redirect('feed')
+        return render(request, 'base/logout.html')
     else:
         messages.error(
-            request, "you can't access profile page unless you are logged in")
-        return redirect('/admin/login')
+            request, "you can't access logout page unless you are logged in")
+        return redirect('login')

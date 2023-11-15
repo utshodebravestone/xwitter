@@ -25,21 +25,10 @@
     {% endfor %}
     <!--  -->
     {% endif %}
-
     <!--  -->
-    {% if user.is_authenticated %}
-    <center>
-      <form action="/tweet/" method="post">
-        {% csrf_token %}
-        <textarea name="tweet" cols="30" rows="3" required></textarea>
-        <br />
-        <button type="submit">xweet</button>
-      </form>
-    </center>
-    {% endif %}
+    {% block body %}
     <!--  -->
-
-    {% block body %} {% endblock %}
+    {% endblock %}
     <!--  -->
     {% include 'partials/footer.html' %}
   </body>

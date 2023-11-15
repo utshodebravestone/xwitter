@@ -6,12 +6,26 @@
 
 <!--  -->
 
+<center>
+  <form action="" method="post">
+    {% csrf_token %}
+    <!--  -->
+    {{ form.as_p }}
+    <button type="submit">xweet</button>
+  </form>
+</center>
+
 <ul style="list-style: none">
   {% for tweet in tweets %}
   <li>
     <fieldset>
       <p>{{ tweet.text }}</p>
-      <small> {{ tweet.created_at }} </small>
+      <small>
+        <a href="{% url 'profile' tweet.user.id %}">
+          @{{ tweet.user.username }}
+        </a>
+        at {{ tweet.created_at }}
+      </small>
     </fieldset>
   </li>
   {% endfor %}

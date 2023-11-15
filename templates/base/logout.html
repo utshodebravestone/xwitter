@@ -1,0 +1,15 @@
+{% extends 'skeleton.html' %}
+
+<!--  -->
+
+{% block body %}
+
+<center>
+  <form action="" method="post">
+    <p>are you sure you wanna logout?</p>
+    {% csrf_token %}
+    <button type="submit">logout</button>
+  </form>
+</center>
+
+{% endblock %}
