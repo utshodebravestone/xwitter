@@ -8,7 +8,7 @@
 <!--  -->
 <fieldset>
   <legend>
-    <h3>{{ profile.user.username }}'s</h3>
+    <h2>@{{ profile.user.username }}'s</h2>
   </legend>
   <img
     src="https://ui-avatars.com/api/?name={{ profile.user.username }}"
@@ -32,6 +32,20 @@
     </li>
     {% endfor %}
   </ul>
+
+  <form action="" method="post">
+    {% csrf_token %}
+    <!--    -->
+    {% if profile in user.profile.follows.all %}
+    <button type="submit" name="action" value="unfollow">
+      Unfollow @{{ profile.user.username }}
+    </button>
+    {% else %}
+    <button type="submit" name="action" value="follow">
+      Follow @{{ profile.user.username }}
+    </button>
+    {% endif %}
+  </form>
 </fieldset>
 <!--  -->
 {% endif %}

@@ -22,6 +22,15 @@ def profiles_view(request):
 def profile_view(request, pk):
     if request.user.is_authenticated:
         profile = Profile.objects.get(user_id=pk)
+
+        if request.method == 'POST':
+            action = request.POST.get('action')
+            if action == 'follow':
+                request.user.profile.follows.add(profile)
+            elif action == 'unfollow':
+                request.user.profile.follows.remove(profile)
+            request.user.profile.save()
+
         return render(request, 'base/profile.html', {'profile': profile})
     else:
         messages.error(
