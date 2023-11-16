@@ -4,7 +4,19 @@
 
 {% block body %}
 
+<h3>search a user:</h3>
+
+<center>
+  <form action="" method="get">
+    <h3 style="display: inline">@</h3>
+    <input type="text" placeholder="type a username" required />
+    <button type="submit">search</button>
+  </form>
+</center>
+
 <!--  -->
+<h3>popular profiles:</h3>
+
 {% for profile in profiles %}
 <fieldset>
   <figure>
@@ -18,6 +30,7 @@
       >@{{ profile.user.username | lower }}</a
     >
   </h3>
+  <p>followed by {{ profile.followed_by.count }} profile</p>
 </fieldset>
 {% endfor %}
 

@@ -1,0 +1,17 @@
+{% extends 'skeleton.html' %}
+
+<!--  -->
+
+{% block body %}
+
+<center>
+  <form action="" method="post">
+    <h3>register</h3>
+    {% csrf_token %}
+    <!--  -->
+    {{ form.as_p }}
+    <button type="submit">register</button>
+  </form>
+</center>
+
+{% endblock %}

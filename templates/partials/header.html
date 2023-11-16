@@ -10,6 +10,7 @@
       <li><a href="{% url 'profile' request.user.id %}">my profile</a></li>
       <li><a href="{% url 'logout' %}">logout</a></li>
       {% else %}
+      <li><a href="{% url 'register' %}">register</a></li>
       <li><a href="{% url 'login' %}">login</a></li>
       {% endif %}
     </ul>

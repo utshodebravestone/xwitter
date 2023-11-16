@@ -12,7 +12,7 @@ class InlinedProfile(admin.StackedInline):
 
 class CustomizedUser(admin.ModelAdmin):
     model = User
-    fields = ['username']
+    fields = ['username', 'email']
     inlines = [InlinedProfile]
 
 
