@@ -31,8 +31,11 @@ def feed_view(request):
 def profiles_view(request):
     if request.user.is_authenticated:
         # profiles = Profile.objects.exclude(user=request.user).order_by('followed_by')
+        name = request.GET.get('name')
         profiles = Profile.objects.annotate(
             follower_count=Count('followed_by')).order_by('-follower_count')
+        if name:
+            profiles = profiles.filter(user__username__startswith=name)
         return render(request, 'base/profiles.html', {'profiles': profiles})
     else:
         messages.error(
