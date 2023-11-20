@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.db.models import Count
 
 from .models import Profile, Tweet, User
-from .forms import TweetForm, RegisterForm
+from .forms import TweetForm, RegisterForm, ProfilePictureForm
 
 
 def feed_view(request):
@@ -113,14 +113,18 @@ def register_view(request):
     return render(request, 'base/register.html', {'form': form})
 
 
-def profile_update_view(request, pk):
+def profile_update_view(request):
     if request.user.is_authenticated:
-        profile = Profile.objects.get(user_id=pk)
+        profile = Profile.objects.get(user_id=request.user.id)
         user = User.objects.get(id=request.user.id)
-        form = RegisterForm(request.POST or None, instance=user)
+        user_form = RegisterForm(request.POST or None,
+                                 request.FILES or None, instance=user)
+        profile_form = ProfilePictureForm(
+            request.POST or None, request.FILES or None, instance=profile)
         if request.method == 'POST':
-            if form.is_valid():
-                form.save()
+            if user_form.is_valid() and profile_form.is_valid():
+                user_form.save()
+                profile_form.save()
                 messages.success(
                     request, "profile updated successfully")
                 login(request, user)
@@ -128,7 +132,7 @@ def profile_update_view(request, pk):
             else:
                 messages.error(
                     request, "got invalid data")
-        return render(request, 'base/update_profile.html', {'form': form})
+        return render(request, 'base/update_profile.html', {'user_form': user_form, 'profile_form': profile_form})
     else:
         messages.error(
             request, "you can't access profile page unless you are logged in")

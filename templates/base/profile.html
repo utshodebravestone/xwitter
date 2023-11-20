@@ -14,13 +14,21 @@
   </legend>
   {% if request.user.id == profile.user.id %}
   <h4>
-    <a href="{% url 'profile_update' profile.user.id %}">edit profile</a>
+    <a href="{% url 'profile_update' %}">edit profile</a>
   </h4>
   {% endif %}
+
+  <!--  -->
+
+  {% if profile.image %}
+  <img src="{{ profile.image.url }}" alt="profile picture" />
+  {% else %}
   <img
     src="https://ui-avatars.com/api/?name={{ profile.user.username | lower }}"
     alt="profile picture"
   />
+  {% endif %}
+
   <p>{{ profile.user.email }}</p>
 
   <ul style="list-style: none">

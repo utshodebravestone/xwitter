@@ -1,8 +1,7 @@
 from django import forms
-from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 
-from .models import Tweet
+from .models import Tweet, Profile, User
 
 
 class TweetForm(forms.ModelForm):
@@ -37,3 +36,11 @@ class RegisterForm(UserCreationForm):
         self.fields['password2'].widget.attrs['placeholder'] = 'confirm your password'
         self.fields['password2'].label = ''
         self.fields['password2'].help_text = ''
+
+
+class ProfilePictureForm(forms.ModelForm):
+    image = forms.ImageField(label='')
+
+    class Meta:
+        model = Profile
+        fields = ('image',)

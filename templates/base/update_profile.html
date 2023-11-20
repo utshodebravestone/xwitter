@@ -5,10 +5,10 @@
 {% block body %}
 
 <center>
-  <form action="" method="post">
+  <form action="" method="post" enctype="multipart/form-data">
     {% csrf_token %}
     <!--  -->
-    {{ form.as_p }}
+    {{ user_form.as_p }} {{ profile_form.as_p }}
     <button type="submit">update</button>
   </form>
 </center>
