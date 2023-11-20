@@ -23,8 +23,8 @@ def feed_view(request):
         tweets = Tweet.objects.all().order_by('-created_at')
         return render(request, 'base/feed.html', {'tweets': tweets, 'form': form})
     else:
-        messages.error(
-            request, "you can't access feed page unless you are logged in")
+        messages.warning(
+            request, "you can't access your feeds unless you are logged in")
         return redirect('login')
 
 
@@ -38,8 +38,8 @@ def profiles_view(request):
             profiles = profiles.filter(user__username__startswith=name)
         return render(request, 'base/profiles.html', {'profiles': profiles})
     else:
-        messages.error(
-            request, "you can't access profile page unless you are logged in")
+        messages.warning(
+            request, "you can't explore other's profile unless you are logged in")
         return redirect('login')
 
 
@@ -59,10 +59,11 @@ def profile_view(request, pk):
                 messages.success(
                     request, f"you unfollowed {profile.user.username}")
             request.user.profile.save()
+            return redirect(f'/profile/{pk}')
 
         return render(request, 'base/profile.html', {'profile': profile, 'tweets': tweets})
     else:
-        messages.error(
+        messages.warning(
             request, "you can't access profile page unless you are logged in")
         return redirect('login')
 
@@ -78,7 +79,7 @@ def login_view(request):
                 request, "logged in successfully")
             return redirect('feed')
         else:
-            messages.error(
+            messages.warning(
                 request, "credentials are incorrect")
     return render(request, 'base/login.html')
 
@@ -90,7 +91,7 @@ def logout_view(request):
             return redirect('login')
         return render(request, 'base/logout.html')
     else:
-        messages.error(
+        messages.warning(
             request, "you can't access logout page unless you are logged in")
         return redirect('login')
 
@@ -108,7 +109,7 @@ def register_view(request):
                 request, "registered successfully")
             return redirect(f'/profile/{user.pk}')
         else:
-            messages.error(
+            messages.warning(
                 request, "got invalid data")
     return render(request, 'base/register.html', {'form': form})
 
@@ -130,10 +131,10 @@ def profile_update_view(request):
                 login(request, user)
                 return redirect(f'/profile/{user.pk}')
             else:
-                messages.error(
+                messages.warning(
                     request, "got invalid data")
         return render(request, 'base/update_profile.html', {'user_form': user_form, 'profile_form': profile_form})
     else:
-        messages.error(
+        messages.warning(
             request, "you can't access profile page unless you are logged in")
         return redirect('login')

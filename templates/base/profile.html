@@ -7,79 +7,101 @@
 <!--  -->
 
 {% if profile %}
-<!--  -->
-<fieldset>
-  <legend>
-    <h2>@{{ profile.user.username | lower }}'s</h2>
-  </legend>
-  {% if request.user.id == profile.user.id %}
-  <h4>
-    <a href="{% url 'profile_update' %}">edit profile</a>
-  </h4>
-  {% endif %}
+<h1 class="mb-5"></h1>
 
-  <!--  -->
+<div class="d-flex justify-content-between align-items-center">
+  <div class="d-flex flex-row"></div>
+</div>
 
-  {% if profile.image %}
-  <img src="{{ profile.image.url }}" alt="profile picture" />
-  {% else %}
-  <img
-    src="https://ui-avatars.com/api/?name={{ profile.user.username | lower }}"
-    alt="profile picture"
-  />
-  {% endif %}
+<div class="card">
+  <div class="card-header">@{{ profile.user.username | lower }}'s</div>
+  <div class="card-body">
+    {% if profile.image %}
+    <img
+      src="{{ profile.image.url }}"
+      alt="Profile Picture"
+      class="rounded card-img-top"
+    />
+    {% else %}
+    <img
+      src="https://ui-avatars.com/api/?name={{ profile.user.username | lower }}"
+      alt="Profile Picture"
+      class="rounded card-img-top"
+    />
+    {% endif %}
 
-  <p>{{ profile.user.email }}</p>
+    <div class="my-3">
+      <h2>{{ profile.user.username }}</h2>
+      <h2>{{ profile.user.email }}</h2>
+    </div>
 
-  <ul style="list-style: none">
+    {% if request.user.id == profile.user.id %}
+    <a href="{% url 'profile_update' %}" class="btn btn-primary"
+      >Edit Profile</a
+    >
+    {% else %}
+    <form action="" method="post">
+      {% csrf_token %}
+      <!--    -->
+      {% if profile in user.profile.follows.all %}
+      <button
+        type="submit"
+        name="action"
+        value="unfollow"
+        class="btn btn-danger"
+      >
+        Unfollow @{{ profile.user.username | lower }}
+      </button>
+      {% else %}
+      <button
+        type="submit"
+        name="action"
+        value="follow"
+        class="btn btn-primary"
+      >
+        Follow @{{ profile.user.username | lower }}
+      </button>
+      {% endif %}
+    </form>
+    {% endif %}
+  </div>
+</div>
+
+<div class="d-flex align-items-start justify-content-between">
+  <ul>
     <h3>tweets:</h3>
     {% for tweet in tweets %}
     <li>
-      <fieldset>
-        <p>{{ tweet.text }}</p>
-        <small> {{ tweet.created_at }} </small>
-      </fieldset>
+      <p>{{ tweet.text }}</p>
+      <small> {{ tweet.created_at }} </small>
     </li>
     {% endfor %}
   </ul>
 
-  <ul>
-    <h3>following:</h3>
-    {% for following in profile.follows.all %}
-    <li>
-      <a href="{% url 'profile' following.user.id %}">
-        @{{ following | lower }}
-      </a>
-    </li>
-    {% endfor %}
-  </ul>
+  <div>
+    <ul>
+      <h3>following:</h3>
+      {% for following in profile.follows.all %}
+      <li>
+        <a href="{% url 'profile' following.user.id %}">
+          @{{ following | lower }}
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
 
-  <ul>
-    <h3>followers:</h3>
-    {% for followers in profile.followed_by.all %}
-    <li>
-      <a href="{% url 'profile' followers.user.id %}">
-        @{{ followers | lower }}
-      </a>
-    </li>
-    {% endfor %}
-  </ul>
-
-  <form action="" method="post">
-    {% csrf_token %}
-    <!--    -->
-    {% if profile in user.profile.follows.all %}
-    <button type="submit" name="action" value="unfollow">
-      Unfollow @{{ profile.user.username | lower }}
-    </button>
-    {% else %}
-    <button type="submit" name="action" value="follow">
-      Follow @{{ profile.user.username | lower }}
-    </button>
-    {% endif %}
-  </form>
-</fieldset>
-<!--  -->
+    <ul>
+      <h3>followers:</h3>
+      {% for followers in profile.followed_by.all %}
+      <li>
+        <a href="{% url 'profile' followers.user.id %}">
+          @{{ followers | lower }}
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
 {% endif %}
 <!--  -->
 {% endblock %}

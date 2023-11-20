@@ -4,14 +4,12 @@
 
 {% block body %}
 
-<center>
-  <form action="" method="post">
-    <h3>register</h3>
-    {% csrf_token %}
-    <!--  -->
-    {{ form.as_p }}
-    <button type="submit">register</button>
-  </form>
-</center>
+<form method="post">
+  <h1 class="text-center mb-5">register</h1>
+  {% csrf_token %}
+  <!--  -->
+  {{ form.as_p }}
+  <button type="submit" class="btn btn-primary">register</button>
+</form>
 
 {% endblock %}

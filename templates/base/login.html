@@ -4,16 +4,34 @@
 
 {% block body %}
 
-<center>
-  <form action="" method="post">
-    <h2>login</h2>
-    {% csrf_token %}
-    <input type="text" placeholder="username" name="username" />
-    <br />
-    <input type="password" placeholder="password" name="password" />
-    <br />
-    <button type="submit">login</button>
-  </form>
-</center>
+<form method="post">
+  <h1 class="text-center mb-5">login</h1>
+
+  {% csrf_token %}
+
+  <div class="mb-3">
+    <label for="exampleInputUsername" class="form-label">Username</label>
+    <input
+      type="email"
+      class="form-control"
+      id="exampleInputUsername"
+      aria-describedby="emailHelp"
+      minlength="3"
+    />
+    <div id="emailHelp" class="form-text">
+      You don't need to include the `@` mark before your username.
+    </div>
+  </div>
+  <div class="mb-3">
+    <label for="exampleInputPassword1" class="form-label">Password</label>
+    <input
+      type="password"
+      minlength="6"
+      class="form-control"
+      id="exampleInputPassword1"
+    />
+  </div>
+  <button type="submit" class="btn btn-primary">Login</button>
+</form>
 
 {% endblock %}
