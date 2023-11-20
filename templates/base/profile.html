@@ -12,6 +12,11 @@
   <legend>
     <h2>@{{ profile.user.username | lower }}'s</h2>
   </legend>
+  {% if request.user.id == profile.user.id %}
+  <h4>
+    <a href="{% url 'profile_update' profile.user.id %}">edit profile</a>
+  </h4>
+  {% endif %}
   <img
     src="https://ui-avatars.com/api/?name={{ profile.user.username | lower }}"
     alt="profile picture"

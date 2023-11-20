@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.db.models import Count
 
-from .models import Profile, Tweet
+from .models import Profile, Tweet, User
 from .forms import TweetForm, RegisterForm
 
 
@@ -111,3 +111,25 @@ def register_view(request):
             messages.error(
                 request, "got invalid data")
     return render(request, 'base/register.html', {'form': form})
+
+
+def profile_update_view(request, pk):
+    if request.user.is_authenticated:
+        profile = Profile.objects.get(user_id=pk)
+        user = User.objects.get(id=request.user.id)
+        form = RegisterForm(request.POST or None, instance=user)
+        if request.method == 'POST':
+            if form.is_valid():
+                form.save()
+                messages.success(
+                    request, "profile updated successfully")
+                login(request, user)
+                return redirect(f'/profile/{user.pk}')
+            else:
+                messages.error(
+                    request, "got invalid data")
+        return render(request, 'base/update_profile.html', {'form': form})
+    else:
+        messages.error(
+            request, "you can't access profile page unless you are logged in")
+        return redirect('login')
