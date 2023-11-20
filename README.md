@@ -1,3 +1,3 @@
 # xwitter
 
-x former twitter like webapp.
+x (formerly known twitter) like webapp.
