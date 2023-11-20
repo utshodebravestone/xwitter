@@ -31,34 +31,42 @@
 </div>
 
 <!--  -->
-<div class="card" style="width: 24rem">
+<div class="card">
   <div class="card-header">
     <h3>Popular Profiles</h3>
   </div>
   <div class="card-body">
     {% for profile in profiles %}
     <div class="card mt-3 p-3">
-      {% if profile.image %}
-      <img
-        src="{{ profile.image.url }}"
-        alt="Profile Picture"
-        class="rounded card-img-top"
-        style="width: 20rem; height: 20rem; object-fit: cover"
-      />
-      {% else %}
-      <img
-        src="https://ui-avatars.com/api/?name={{ profile.user.username | lower }}"
-        alt="Profile Picture"
-        class="rounded card-img-top"
-        style="width: 20rem; height: 20rem; object-fit: cover"
-      />
-      {% endif %}
-      <h3>
-        <a href="{% url 'profile' profile.user.id %}"
-          >@{{ profile.user.username | lower }}</a
-        >
-      </h3>
-      <h4>Followed by {{ profile.followed_by.count }} Profile</h4>
+      <div class="col-1">
+        {% if profile.image %}
+        <img
+          src="{{ profile.image.url }}"
+          alt="Profile Picture"
+          height="100"
+          width="100"
+          style="object-fit: cover"
+          class="rounded-circle"
+        />
+        {% else %}
+        <img
+          src="https://ui-avatars.com/api/?name={{ tweet.profile.user.username | lower }}"
+          alt="Profile Picture"
+          height="100"
+          width="100"
+          style="object-fit: cover"
+          class="rounded-circle"
+        />
+        {% endif %}
+      </div>
+      <div class="col-11">
+        <h3>
+          <a href="{% url 'profile' profile.user.id %}"
+            >@{{ profile.user.username | lower }}</a
+          >
+        </h3>
+        <h4>Followed by {{ profile.followed_by.count }} Profile</h4>
+      </div>
     </div>
     {% endfor %}
   </div>

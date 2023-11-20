@@ -29,23 +29,38 @@
   <ul class="card-body">
     {% for tweet in tweets %}
     <li class="card mt-3">
-      <div class="card-body">
-        <!-- {% if tweet.user.profile.image %}
-        <img src="{{ tweet.user.profile.image.url }}" alt="Profile Picture" />
-        {% else %}
-        <img
-          src="https://ui-avatars.com/api/?name={{ profile.user.username | lower }}"
-          alt="Profile Picture"
-        />
-        {% endif %} -->
-        <p style="font-size: 1.1rem">{{ tweet.text }}</p>
-        <small>
-          Xweeted by
-          <a href="{% url 'profile' tweet.user.id %}">
-            @{{ tweet.user.username }}
-          </a>
-          at {{ tweet.created_at }}
-        </small>
+      <div class="card-body row align-items-center">
+        <div class="col-1">
+          {% if tweet.user.profile.image %}
+          <img
+            src="{{ tweet.user.profile.image.url }}"
+            alt="Profile Picture"
+            height="65"
+            width="65"
+            style="object-fit: cover"
+            class="rounded-circle"
+          />
+          {% else %}
+          <img
+            src="https://ui-avatars.com/api/?name={{ tweet.profile.user.username | lower }}"
+            alt="Profile Picture"
+            height="65"
+            width="65"
+            style="object-fit: cover"
+            class="rounded-circle"
+          />
+          {% endif %}
+        </div>
+        <div class="col-11">
+          <p style="font-size: 1.1rem">{{ tweet.text }}</p>
+          <small>
+            Xweeted by
+            <a href="{% url 'profile' tweet.user.id %}">
+              @{{ tweet.user.username }}
+            </a>
+            at {{ tweet.created_at }}
+          </small>
+        </div>
       </div>
     </li>
     {% endfor %}

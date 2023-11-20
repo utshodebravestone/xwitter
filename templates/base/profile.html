@@ -18,12 +18,14 @@
       src="{{ profile.image.url }}"
       alt="Profile Picture"
       class="rounded card-img-top"
+      style="width: 20rem; height: 20rem; object-fit: cover"
     />
     {% else %}
     <img
       src="https://ui-avatars.com/api/?name={{ profile.user.username | lower }}"
       alt="Profile Picture"
       class="rounded card-img-top"
+      style="width: 20rem; height: 20rem; object-fit: cover"
     />
     {% endif %}
 
@@ -37,7 +39,7 @@
       >Edit Profile</a
     >
     {% else %}
-    <form action="" method="post">
+    <form method="post">
       {% csrf_token %}
       <!--    -->
       {% if profile in user.profile.follows.all %}
@@ -87,10 +89,33 @@
       </div>
       <ul class="card-body px-5">
         {% for following in profile.follows.all %}
-        <li>
-          <a href="{% url 'profile' following.user.id %}">
-            @{{ following.user.username | lower }}
-          </a>
+        <li class="p-2 mt-2 card">
+          <div class="col-1">
+            {% if following.image %}
+            <img
+              src="{{ following.image.url }}"
+              alt="Profile Picture"
+              height="50"
+              width="50"
+              style="object-fit: cover"
+              class="rounded-circle"
+            />
+            {% else %}
+            <img
+              src="https://ui-avatars.com/api/?name={{ following.user.username | lower }}"
+              alt="Profile Picture"
+              height="50"
+              width="50"
+              style="object-fit: cover"
+              class="rounded-circle"
+            />
+            {% endif %}
+          </div>
+          <div class="col-11">
+            <a href="{% url 'profile' following.user.id %}">
+              @{{ following.user.username | lower }}
+            </a>
+          </div>
         </li>
         {% endfor %}
       </ul>
@@ -102,10 +127,33 @@
       </div>
       <ul class="card-body px-5">
         {% for follower in profile.followed_by.all %}
-        <li>
-          <a href="{% url 'profile' follower.user.id %}">
-            @{{ follower.user.username | lower }}
-          </a>
+        <li class="p-2 mt-2 card">
+          <div class="col-1">
+            {% if follower.image %}
+            <img
+              src="{{ follower.image.url }}"
+              alt="Profile Picture"
+              height="50"
+              width="50"
+              style="object-fit: cover"
+              class="rounded-circle"
+            />
+            {% else %}
+            <img
+              src="https://ui-avatars.com/api/?name={{ follower.user.username | lower }}"
+              alt="Profile Picture"
+              height="50"
+              width="50"
+              style="object-fit: cover"
+              class="rounded-circle"
+            />
+            {% endif %}
+          </div>
+          <div class="col-11">
+            <a href="{% url 'profile' follower.user.id %}">
+              @{{ follower.user.username | lower }}
+            </a>
+          </div>
         </li>
         {% endfor %}
       </ul>
