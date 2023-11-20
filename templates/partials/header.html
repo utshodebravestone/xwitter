@@ -13,7 +13,7 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <a class="navbar-brand" href="/">
-        <h2>xwitter</h2>
+        <h2>Xwitter</h2>
       </a>
       <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
         <!-- GENERAL LINKS -->
@@ -23,7 +23,7 @@
               class="nav-link active"
               aria-current="page"
               href="{% url 'feed' %}"
-              >feed</a
+              >Feed</a
             >
           </li>
           <li class="nav-item">
@@ -31,7 +31,7 @@
               class="nav-link active"
               aria-current="page"
               href="{% url 'profiles' %}"
-              >find people</a
+              >Find People</a
             >
           </li>
         </ul>
@@ -43,15 +43,16 @@
               class="nav-link active"
               aria-current="page"
               href="{% url 'profile' request.user.id %}"
-              >my profile</a
             >
+              @{{ user.username | lower }}'s
+            </a>
           </li>
           <li class="nav-item">
             <a
               class="nav-link active"
               aria-current="page"
               href="{% url 'logout' %}"
-              >logout</a
+              >Logout</a
             >
           </li>
           {% else %}
@@ -60,7 +61,7 @@
               class="nav-link active"
               aria-current="page"
               href="{% url 'register' %}"
-              >register</a
+              >Register</a
             >
           </li>
           <li class="nav-item">
@@ -68,7 +69,7 @@
               class="nav-link active"
               aria-current="page"
               href="{% url 'login' %}"
-              >login</a
+              >Login</a
             >
           </li>
           {% endif %}

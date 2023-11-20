@@ -6,7 +6,8 @@ from .models import Tweet, Profile, User
 
 class TweetForm(forms.ModelForm):
     text = forms.CharField(max_length=200, required=True, widget=forms.widgets.Textarea(
-        attrs={'placeholder': 'type what you wanna xweet about...'}
+        attrs={'placeholder': 'Write your xweet...',
+               'class': 'form-control', 'rows': '3'}
     ), label='')
 
     class Meta:
@@ -49,7 +50,8 @@ class RegisterForm(UserCreationForm):
 
 
 class ProfilePictureForm(forms.ModelForm):
-    image = forms.ImageField(label='')
+    image = forms.ImageField(label='', widget=forms.FileInput(
+        attrs={'class': 'form-control'}))
 
     class Meta:
         model = Profile

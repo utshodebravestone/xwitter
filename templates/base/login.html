@@ -2,17 +2,22 @@
 
 <!--  -->
 
+{% block title %} | Login {% endblock %}
+
+<!--  -->
+
 {% block body %}
 
 <form method="post">
-  <h1 class="text-center mb-5">login</h1>
+  <h1 class="text-center mb-5">Login</h1>
 
   {% csrf_token %}
 
   <div class="mb-3">
     <label for="exampleInputUsername" class="form-label">Username</label>
     <input
-      type="email"
+      type="text"
+      name="username"
       class="form-control"
       id="exampleInputUsername"
       aria-describedby="emailHelp"
@@ -26,6 +31,7 @@
     <label for="exampleInputPassword1" class="form-label">Password</label>
     <input
       type="password"
+      name="password"
       minlength="6"
       class="form-control"
       id="exampleInputPassword1"

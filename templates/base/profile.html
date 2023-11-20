@@ -2,19 +2,16 @@
 
 <!--  -->
 
-{% block body %}
+{% block title %} | @{{ profile.user.username | lower }} {% endblock %}
 
 <!--  -->
 
-{% if profile %}
-<h1 class="mb-5"></h1>
+{% block body %}
 
-<div class="d-flex justify-content-between align-items-center">
-  <div class="d-flex flex-row"></div>
-</div>
-
-<div class="card">
-  <div class="card-header">@{{ profile.user.username | lower }}'s</div>
+<div class="card mb-5">
+  <div class="card-header">
+    <h1>@{{ profile.user.username | lower }}'s profile</h1>
+  </div>
   <div class="card-body">
     {% if profile.image %}
     <img
@@ -68,40 +65,52 @@
 </div>
 
 <div class="d-flex align-items-start justify-content-between">
-  <ul>
-    <h3>tweets:</h3>
-    {% for tweet in tweets %}
-    <li>
-      <p>{{ tweet.text }}</p>
-      <small> {{ tweet.created_at }} </small>
-    </li>
-    {% endfor %}
-  </ul>
+  <div class="card mx-2">
+    <div class="card-header">
+      <h2>Tweets</h2>
+    </div>
 
-  <div>
-    <ul>
-      <h3>following:</h3>
-      {% for following in profile.follows.all %}
-      <li>
-        <a href="{% url 'profile' following.user.id %}">
-          @{{ following | lower }}
-        </a>
-      </li>
-      {% endfor %}
-    </ul>
-
-    <ul>
-      <h3>followers:</h3>
-      {% for followers in profile.followed_by.all %}
-      <li>
-        <a href="{% url 'profile' followers.user.id %}">
-          @{{ followers | lower }}
-        </a>
+    <ul class="card-body">
+      {% for tweet in tweets %}
+      <li class="card p-3 mt-2">
+        <p style="font-size: 1.25rem">{{ tweet.text | safe }}</p>
+        <small><strong>Posted At: </strong>{{ tweet.created_at }} </small>
       </li>
       {% endfor %}
     </ul>
   </div>
+
+  <div class="mx-2">
+    <div class="card mb-2">
+      <div class="card-header">
+        <h2>Following</h2>
+      </div>
+      <ul class="card-body px-5">
+        {% for following in profile.follows.all %}
+        <li>
+          <a href="{% url 'profile' following.user.id %}">
+            @{{ following.user.username | lower }}
+          </a>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <h2>Followers</h2>
+      </div>
+      <ul class="card-body px-5">
+        {% for follower in profile.followed_by.all %}
+        <li>
+          <a href="{% url 'profile' follower.user.id %}">
+            @{{ follower.user.username | lower }}
+          </a>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
 </div>
-{% endif %}
-<!--  -->
+
 {% endblock %}

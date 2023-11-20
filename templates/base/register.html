@@ -2,14 +2,18 @@
 
 <!--  -->
 
+{% block title %} | Register {% endblock %}
+
+<!--  -->
+
 {% block body %}
 
 <form method="post">
-  <h1 class="text-center mb-5">register</h1>
+  <h1 class="text-center mb-5">Register</h1>
   {% csrf_token %}
   <!--  -->
   {{ form.as_p }}
-  <button type="submit" class="btn btn-primary">register</button>
+  <button type="submit" class="btn btn-primary">Register</button>
 </form>
 
 {% endblock %}

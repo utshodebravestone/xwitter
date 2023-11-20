@@ -2,37 +2,67 @@
 
 <!--  -->
 
-{% block body %}
-
-<h3>search a user:</h3>
-
-<center>
-  <form action="" method="get">
-    <h3 style="display: inline">@</h3>
-    <input type="text" name="name" placeholder="type a username" required />
-    <button type="submit">search</button>
-  </form>
-</center>
+{% block title %} | Profiles {% endblock %}
 
 <!--  -->
-<h3>popular profiles:</h3>
 
-{% for profile in profiles %}
-<fieldset>
-  <figure>
-    <img
-      src="https://ui-avatars.com/api/?name={{ profile.user.username | lower }}"
-      alt="profile picture"
-    />
-  </figure>
-  <h3>
-    <a href="{% url 'profile' profile.user.id %}"
-      >@{{ profile.user.username | lower }}</a
-    >
-  </h3>
-  <p>followed by {{ profile.followed_by.count }} profile</p>
-</fieldset>
-{% endfor %}
+{% block body %}
+
+<div class="card mb-5">
+  <div class="card-header">
+    <h3>Search for a Profile</h3>
+  </div>
+  <form method="get" class="card-body">
+    <div class="input-group">
+      <span class="input-group-text">@</span>
+      <div class="form-floating is-invalid">
+        <input
+          type="text"
+          class="form-control"
+          id="floatingInputGroup2"
+          placeholder="Username"
+          required
+        />
+        <label for="floatingInputGroup2">Username</label>
+      </div>
+      <button type="submit" class="btn btn-primary">Search</button>
+    </div>
+  </form>
+</div>
+
+<!--  -->
+<div class="card" style="width: 24rem">
+  <div class="card-header">
+    <h3>Popular Profiles</h3>
+  </div>
+  <div class="card-body">
+    {% for profile in profiles %}
+    <div class="card mt-3 p-3">
+      {% if profile.image %}
+      <img
+        src="{{ profile.image.url }}"
+        alt="Profile Picture"
+        class="rounded card-img-top"
+        style="width: 20rem; height: 20rem; object-fit: cover"
+      />
+      {% else %}
+      <img
+        src="https://ui-avatars.com/api/?name={{ profile.user.username | lower }}"
+        alt="Profile Picture"
+        class="rounded card-img-top"
+        style="width: 20rem; height: 20rem; object-fit: cover"
+      />
+      {% endif %}
+      <h3>
+        <a href="{% url 'profile' profile.user.id %}"
+          >@{{ profile.user.username | lower }}</a
+        >
+      </h3>
+      <h4>Followed by {{ profile.followed_by.count }} Profile</h4>
+    </div>
+    {% endfor %}
+  </div>
+</div>
 
 <!--  -->
 {% endblock %}

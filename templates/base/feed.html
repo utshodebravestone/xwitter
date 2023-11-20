@@ -2,41 +2,54 @@
 
 <!--  -->
 
+{% block title %} | Feed {% endblock %}
+
+<!--  -->
+
 {% block body %}
 
 <!--  -->
 
-<center>
-  <form action="" method="post">
+<form method="post" class="card mb-5">
+  <div class="card-header">
+    <h2>Post a Xweet</h2>
+  </div>
+  <div class="card-body">
     {% csrf_token %}
     <!--  -->
     {{ form.as_p }}
-    <button type="submit">xweet</button>
-  </form>
-</center>
+    <button type="submit" class="btn btn-primary">Xweet</button>
+  </div>
+</form>
 
-<ul style="list-style: none">
-  {% for tweet in tweets %}
-  <li>
-    <fieldset>
-      {% if tweet.user.profile.image %}
-      <img src="{{ tweet.user.profile.image.url }}" alt="profile picture" />
-      {% else %}
-      <img
-        src="https://ui-avatars.com/api/?name={{ profile.user.username | lower }}"
-        alt="profile picture"
-      />
-      {% endif %}
-      <p>{{ tweet.text }}</p>
-      <small>
-        <a href="{% url 'profile' tweet.user.id %}">
-          @{{ tweet.user.username }}
-        </a>
-        at {{ tweet.created_at }}
-      </small>
-    </fieldset>
-  </li>
-  {% endfor %}
-</ul>
+<div class="card">
+  <div class="card-header">
+    <h2>Your Feed</h2>
+  </div>
+  <ul class="card-body">
+    {% for tweet in tweets %}
+    <li class="card mt-3">
+      <div class="card-body">
+        <!-- {% if tweet.user.profile.image %}
+        <img src="{{ tweet.user.profile.image.url }}" alt="Profile Picture" />
+        {% else %}
+        <img
+          src="https://ui-avatars.com/api/?name={{ profile.user.username | lower }}"
+          alt="Profile Picture"
+        />
+        {% endif %} -->
+        <p style="font-size: 1.1rem">{{ tweet.text }}</p>
+        <small>
+          Xweeted by
+          <a href="{% url 'profile' tweet.user.id %}">
+            @{{ tweet.user.username }}
+          </a>
+          at {{ tweet.created_at }}
+        </small>
+      </div>
+    </li>
+    {% endfor %}
+  </ul>
+</div>
 
 {% endblock %}

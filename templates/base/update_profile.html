@@ -4,13 +4,11 @@
 
 {% block body %}
 
-<center>
-  <form action="" method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    <!--  -->
-    {{ user_form.as_p }} {{ profile_form.as_p }}
-    <button type="submit">update</button>
-  </form>
-</center>
+<form method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  <!--  -->
+  {{ user_form.as_p }} {{ profile_form.as_p }}
+  <button type="submit" class="btn btn-primary">update</button>
+</form>
 
 {% endblock %}
