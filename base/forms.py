@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 
-from .models import Tweet, Profile, User
+from .models import Tweet, Profile, User, Comment
 
 
 class TweetForm(forms.ModelForm):
@@ -13,6 +13,17 @@ class TweetForm(forms.ModelForm):
     class Meta:
         model = Tweet
         exclude = ('user', 'likes')
+
+
+class CommentForm(forms.ModelForm):
+    text = forms.CharField(max_length=200, required=True, widget=forms.widgets.Textarea(
+        attrs={'placeholder': 'Write your comment...',
+               'class': 'form-control', 'rows': '3'}
+    ), label='')
+
+    class Meta:
+        model = Comment
+        exclude = ('user', 'tweet')
 
 
 class RegisterForm(UserCreationForm):

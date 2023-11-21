@@ -15,8 +15,8 @@ class Profile(models.Model):
 
 
 class Tweet(models.Model):
-    user = models.ForeignKey(User, related_name='tweets',
-                             on_delete=models.DO_NOTHING)
+    user = models.ForeignKey(
+        User, related_name='tweets', on_delete=models.CASCADE)
     text = models.CharField(max_length=200)
     likes = models.ManyToManyField(User, related_name='liked_by', blank=True)
     created_at = models.DateTimeField(auto_now=True)
@@ -29,7 +29,8 @@ class Tweet(models.Model):
 
 
 class Comment(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(
+        User, related_name='comments', on_delete=models.CASCADE)
     tweet = models.ForeignKey(Tweet, related_name='comments',
                               on_delete=models.DO_NOTHING)
     text = models.CharField(max_length=200)

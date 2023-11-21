@@ -60,8 +60,19 @@
 
     <div class="card m-2">
       <div class="card-header">
-        <h3>Comments</h3>
+        <h2>Comments</h2>
       </div>
+      <form method="post" class="card m-3">
+        <div class="card-header">
+          <h3>Post a Comment</h3>
+        </div>
+        <div class="card-body">
+          {% csrf_token %}
+          <!--  -->
+          {{ form.as_p }}
+          <button type="submit" class="btn btn-primary">Comment</button>
+        </div>
+      </form>
       <ul class="card-body">
         {% for comment in tweet.comments.all %}
         <li class="card mt-2">

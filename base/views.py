@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.db.models import Count
 
 from .models import Profile, Tweet, User
-from .forms import TweetForm, RegisterForm, ProfilePictureForm
+from .forms import TweetForm, RegisterForm, ProfilePictureForm, CommentForm
 
 
 def feed_view(request):
@@ -157,9 +157,22 @@ def like_view(request, pk):
 
 
 def tweet_view(request, pk):
+    form = CommentForm(request.POST or None)
     if request.user.is_authenticated:
         tweet = get_object_or_404(Tweet, id=pk)
-        return render(request, 'base/tweet.html', {'tweet': tweet})
+        if request.method == 'POST':
+            if form.is_valid():
+                comment = form.save(commit=False)
+                comment.user_id = request.user.id
+                comment.tweet = tweet
+                comment.save()
+                messages.success(
+                    request, "commented successfully")
+                return redirect(f'/tweet/{tweet.pk}')
+            else:
+                messages.warning(
+                    request, "got invalid data")
+        return render(request, 'base/tweet.html', {'tweet': tweet, 'form': form})
     else:
         messages.warning(
             request, "you can't access tweet page unless you are logged in")
