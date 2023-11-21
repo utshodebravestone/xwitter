@@ -28,6 +28,17 @@ class Tweet(models.Model):
         return self.text[:64]
 
 
+class Comment(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    tweet = models.ForeignKey(Tweet, related_name='comments',
+                              on_delete=models.DO_NOTHING)
+    text = models.CharField(max_length=200)
+    created_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self) -> str:
+        return self.text[:64]
+
+
 def create_profile(sender, instance, created, **kwargs):
     if created:
         profile = Profile(user=instance)

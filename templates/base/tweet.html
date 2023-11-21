@@ -57,6 +57,53 @@
         </small>
       </div>
     </div>
+
+    <div class="card m-2">
+      <div class="card-header">
+        <h3>Comments</h3>
+      </div>
+      <ul class="card-body">
+        {% for comment in tweet.comments.all %}
+        <li class="card mt-2">
+          <div class="card-body">
+            <div class="col-1 mb-4">
+              {% if comment.user.profile.image %}
+              <img
+                src="{{ comment.user.profile.image.url }}"
+                alt="Profile Picture"
+                height="50"
+                width="50"
+                style="object-fit: cover"
+                class="rounded-circle"
+              />
+              {% else %}
+              <img
+                src="https://ui-avatars.com/api/?name={{ comment.profile.user.username | lower }}"
+                alt="Profile Picture"
+                height="50"
+                width="50"
+                style="object-fit: cover"
+                class="rounded-circle"
+              />
+              {% endif %}
+            </div>
+            <div class="col-11">
+              <p style="font-size: 1.1rem">{{ comment.text | safe }}</p>
+            </div>
+            <div class="mt-2">
+              <small>
+                Commented by
+                <a href="{% url 'profile' comment.user.id %}">
+                  @{{ comment.user.username }}
+                </a>
+                at {{ comment.created_at }}
+              </small>
+            </div>
+          </div>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
   </div>
 </div>
 
