@@ -76,6 +76,20 @@
       {% for tweet in tweets %}
       <li class="card p-3 mt-2">
         <p style="font-size: 1.25rem">{{ tweet.text | safe }}</p>
+        <div class="btn-group">
+          <button class="btn disabled">{{ tweet.likes_count }}</button>
+          <a href="{% url 'like' tweet.id %}" class="btn btn-primary">
+            {% if user in tweet.likes.all %}
+            <!--  -->
+            Unlike
+            <!--  -->
+            {% else %}
+            <!--  -->
+            Like
+            <!--  -->
+            {% endif %}
+          </a>
+        </div>
         <small><strong>Posted At: </strong>{{ tweet.created_at }} </small>
       </li>
       {% endfor %}

@@ -52,14 +52,30 @@
           {% endif %}
         </div>
         <div class="col-11">
-          <p style="font-size: 1.1rem">{{ tweet.text }}</p>
-          <small>
-            Xweeted by
-            <a href="{% url 'profile' tweet.user.id %}">
-              @{{ tweet.user.username }}
+          <p style="font-size: 1.1rem">{{ tweet.text | safe }}</p>
+          <div class="btn-group">
+            <button class="btn disabled">{{ tweet.likes_count }}</button>
+            <a href="{% url 'like' tweet.id %}" class="btn btn-primary">
+              {% if user in tweet.likes.all %}
+              <!--  -->
+              Unlike
+              <!--  -->
+              {% else %}
+              <!--  -->
+              Like
+              <!--  -->
+              {% endif %}
             </a>
-            at {{ tweet.created_at }}
-          </small>
+          </div>
+          <div class="mt-2">
+            <small>
+              Xweeted by
+              <a href="{% url 'profile' tweet.user.id %}">
+                @{{ tweet.user.username }}
+              </a>
+              at {{ tweet.created_at }}
+            </small>
+          </div>
         </div>
       </div>
     </li>

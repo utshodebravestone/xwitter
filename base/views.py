@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.db.models import Count
@@ -45,7 +45,7 @@ def profiles_view(request):
 
 def profile_view(request, pk):
     if request.user.is_authenticated:
-        profile = Profile.objects.get(user_id=pk)
+        profile = get_object_or_404(Profile, id=pk)
         tweets = Tweet.objects.filter(user_id=pk).order_by('-created_at')
 
         if request.method == 'POST':
@@ -134,6 +134,21 @@ def profile_update_view(request):
                 messages.warning(
                     request, "got invalid data")
         return render(request, 'base/update_profile.html', {'user_form': user_form, 'profile_form': profile_form})
+    else:
+        messages.warning(
+            request, "you can't access profile page unless you are logged in")
+        return redirect('login')
+
+
+def like_view(request, pk):
+    if request.user.is_authenticated:
+        tweet = get_object_or_404(Tweet, id=pk)
+        if tweet.likes.filter(id=request.user.id):
+            tweet.likes.remove(request.user)
+        else:
+            tweet.likes.add(request.user)
+        messages.success(request, 'liked successfully')
+        return redirect('feed')
     else:
         messages.warning(
             request, "you can't access profile page unless you are logged in")
