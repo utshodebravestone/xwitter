@@ -78,16 +78,15 @@
         <p style="font-size: 1.25rem">{{ tweet.text | safe }}</p>
         <div class="btn-group">
           <button class="btn disabled">{{ tweet.likes_count }}</button>
-          <a href="{% url 'like' tweet.id %}" class="btn btn-primary">
-            {% if user in tweet.likes.all %}
-            <!--  -->
+          {% if user in tweet.likes.all %}
+          <a href="{% url 'like' tweet.id %}" class="btn btn-danger">
             Unlike
-            <!--  -->
-            {% else %}
-            <!--  -->
-            Like
-            <!--  -->
-            {% endif %}
+          </a>
+          {% else %}
+          <a href="{% url 'like' tweet.id %}" class="btn btn-primary"> Like </a>
+          {% endif %}
+          <a class="btn btn-primary" href="{% url 'tweet' tweet.id %}">
+            {{ tweet.comments.count }} Comments
           </a>
         </div>
         <small><strong>Posted At: </strong>{{ tweet.created_at }} </small>

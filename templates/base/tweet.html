@@ -35,17 +35,11 @@
       <p style="font-size: 1.1rem">{{ tweet.text | safe }}</p>
       <div class="btn-group">
         <button class="btn disabled">{{ tweet.likes_count }}</button>
-        <a href="{% url 'like' tweet.id %}" class="btn btn-primary">
-          {% if user in tweet.likes.all %}
-          <!--  -->
-          Unlike
-          <!--  -->
-          {% else %}
-          <!--  -->
-          Like
-          <!--  -->
-          {% endif %}
-        </a>
+        {% if user in tweet.likes.all %}
+        <a href="{% url 'like' tweet.id %}" class="btn btn-danger"> Unlike </a>
+        {% else %}
+        <a href="{% url 'like' tweet.id %}" class="btn btn-primary"> Like </a>
+        {% endif %}
       </div>
       <div class="mt-2">
         <small>
@@ -60,7 +54,7 @@
 
     <div class="card m-2">
       <div class="card-header">
-        <h2>Comments</h2>
+        <h2>Comments ( {{ tweet.comments.count }} )</h2>
       </div>
       <form method="post" class="card m-3">
         <div class="card-header">

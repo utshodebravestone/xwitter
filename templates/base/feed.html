@@ -55,16 +55,17 @@
           <p style="font-size: 1.1rem">{{ tweet.text | safe }}</p>
           <div class="btn-group">
             <button class="btn disabled">{{ tweet.likes_count }}</button>
-            <a href="{% url 'like' tweet.id %}" class="btn btn-primary">
-              {% if user in tweet.likes.all %}
-              <!--  -->
+            {% if user in tweet.likes.all %}
+            <a href="{% url 'like' tweet.id %}" class="btn btn-danger">
               Unlike
-              <!--  -->
-              {% else %}
-              <!--  -->
+            </a>
+            {% else %}
+            <a href="{% url 'like' tweet.id %}" class="btn btn-primary">
               Like
-              <!--  -->
-              {% endif %}
+            </a>
+            {% endif %}
+            <a class="btn btn-primary" href="{% url 'tweet' tweet.id %}">
+              {{ tweet.comments.count }} Comments
             </a>
           </div>
           <div class="my-2">
@@ -78,7 +79,7 @@
           </div>
 
           <a href="{% url 'tweet' tweet.id %}" class="btn btn-sm btn-primary">
-            See More
+            See Details
           </a>
         </div>
       </div>
