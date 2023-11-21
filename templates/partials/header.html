@@ -46,8 +46,8 @@
           {% if user.is_authenticated %}
           <li class="nav-item dropdown">
             <a
-              class="nav-link dropdown-toggle"
-              href="#"
+              class="nav-link"
+              href=""
               role="button"
               data-bs-toggle="dropdown"
               aria-expanded="false"
@@ -56,8 +56,8 @@
               <img
                 src="{{ user.profile.image.url }}"
                 alt="{{ user.username }}"
-                height="50"
-                width="50"
+                height="40"
+                width="40"
                 style="object-fit: cover"
                 class="rounded-circle"
               />
@@ -65,8 +65,8 @@
               <img
                 src="https://ui-avatars.com/api/?name={{ user.username | lower }}"
                 alt="{{ user.username }}"
-                height="50"
-                width="50"
+                height="40"
+                width="40"
                 style="object-fit: cover"
                 class="rounded-circle"
               />

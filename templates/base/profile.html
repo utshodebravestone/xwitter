@@ -66,8 +66,8 @@
   </div>
 </div>
 
-<div class="d-lg-flex align-items-start justify-content-between">
-  <div class="card mx-2">
+<div class="d-lg-flex align-items-start">
+  <div class="card mx-2 col-6">
     <div class="card-header">
       <h2>Tweets</h2>
     </div>
@@ -89,13 +89,15 @@
             {{ tweet.comments.count }} Comments
           </a>
         </div>
-        <small><strong>Posted At: </strong>{{ tweet.created_at }} </small>
+        <small class="mt-1"
+          ><strong>Posted At: </strong>{{ tweet.created_at }}
+        </small>
       </li>
       {% endfor %}
     </ul>
   </div>
 
-  <div class="mx-2 mt-2">
+  <div class="mx-2 mt-2 mt-lg-0 col-6">
     <div class="card mb-2">
       <div class="card-header">
         <h2>Following</h2>
