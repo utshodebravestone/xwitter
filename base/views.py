@@ -20,7 +20,8 @@ def feed_view(request):
                     request, "xweeted successfully")
                 return redirect('feed')
 
-        tweets = Tweet.objects.all().order_by('-created_at')
+        tweets = Tweet.objects.filter(
+            user__profile__followed_by=request.user.profile).order_by('-created_at')
         return render(request, 'base/feed.html', {'tweets': tweets, 'form': form})
     else:
         messages.warning(
@@ -53,11 +54,11 @@ def profile_view(request, pk):
             if action == 'follow':
                 request.user.profile.follows.add(profile)
                 messages.success(
-                    request, f"you followed {profile.user.username}")
+                    request, f"you followed @{profile.user.username}")
             elif action == 'unfollow':
                 request.user.profile.follows.remove(profile)
                 messages.success(
-                    request, f"you unfollowed {profile.user.username}")
+                    request, f"you unfollowed @{profile.user.username}")
             request.user.profile.save()
             return redirect(f'/profile/{pk}')
 
