@@ -154,3 +154,13 @@ def like_view(request, pk):
         messages.warning(
             request, "you can't access profile page unless you are logged in")
         return redirect('login')
+
+
+def tweet_view(request, pk):
+    if request.user.is_authenticated:
+        tweet = get_object_or_404(Tweet, id=pk)
+        return render(request, 'base/tweet.html', {'tweet': tweet})
+    else:
+        messages.warning(
+            request, "you can't access tweet page unless you are logged in")
+        return redirect('login')

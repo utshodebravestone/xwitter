@@ -67,7 +67,7 @@
               {% endif %}
             </a>
           </div>
-          <div class="mt-2">
+          <div class="my-2">
             <small>
               Xweeted by
               <a href="{% url 'profile' tweet.user.id %}">
@@ -76,6 +76,10 @@
               at {{ tweet.created_at }}
             </small>
           </div>
+
+          <a href="{% url 'tweet' tweet.id %}" class="btn btn-sm btn-primary">
+            See More
+          </a>
         </div>
       </div>
     </li>
